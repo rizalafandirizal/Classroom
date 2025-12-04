@@ -1,13 +1,14 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class ApiService {
   static const String baseUrl = 'http://localhost:8000/api'; // Adjust this to your Laravel API URL
 
   static Future<Map<String, String>> _getHeaders() async {
-    final prefs = await SharedPreferences.getInstance();
-    final token = prefs.getString('token');
+    final session = Supabase.instance.client.auth.currentSession;
+    final token = session?.accessToken;
 
     return {
       'Content-Type': 'application/json',
@@ -17,42 +18,33 @@ class ApiService {
 
   // Authentication methods
   static Future<Map<String, dynamic>> login(String email, String password) async {
-    final response = await http.post(
-      Uri.parse('$baseUrl/login'),
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({
-        'email': email,
-        'password': password,
-      }),
-    );
-
-    if (response.statusCode == 200) {
-      final data = jsonDecode(response.body);
-      if (data['token'] != null) {
-        final prefs = await SharedPreferences.getInstance();
-        await prefs.setString('token', data['token']);
-      }
-      return data;
-    } else {
-      throw Exception('Login failed: ${response.body}');
+    try {
+      final response = await Supabase.instance.client.auth.signInWithPassword(
+        email: email,
+        password: password,
+      );
+      return {
+        'user': response.user?.toJson(),
+        'session': response.session?.toJson(),
+      };
+    } catch (e) {
+      throw Exception('Login failed: $e');
     }
   }
 
   static Future<Map<String, dynamic>> register(String name, String email, String password) async {
-    final response = await http.post(
-      Uri.parse('$baseUrl/register'),
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({
-        'name': name,
-        'email': email,
-        'password': password,
-      }),
-    );
-
-    if (response.statusCode == 201) {
-      return jsonDecode(response.body);
-    } else {
-      throw Exception('Registration failed: ${response.body}');
+    try {
+      final response = await Supabase.instance.client.auth.signUp(
+        email: email,
+        password: password,
+        data: {'name': name},
+      );
+      return {
+        'user': response.user?.toJson(),
+        'session': response.session?.toJson(),
+      };
+    } catch (e) {
+      throw Exception('Registration failed: $e');
     }
   }
 
@@ -170,13 +162,13 @@ class ApiService {
   }
 
   static Future<void> logout() async {
+    await Supabase.instance.client.auth.signOut();
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove('token');
   }
 
   static Future<bool> isLoggedIn() async {
-    final prefs = await SharedPreferences.getInstance();
-    final token = prefs.getString('token');
-    return token != null && token.isNotEmpty;
+    final session = Supabase.instance.client.auth.currentSession;
+    return session != null;
   }
 }
