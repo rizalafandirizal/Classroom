@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 # smartclassroom
+=======
+# classroom
+>>>>>>> 5e6f7e3 (keempat)
 
 A new Flutter project.
 

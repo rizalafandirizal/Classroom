@@ -1,6 +1,11 @@
 {
+<<<<<<< HEAD
     "name": "smartclassroom",
     "short_name": "smartclassroom",
+=======
+    "name": "classroom",
+    "short_name": "classroom",
+>>>>>>> 5e6f7e3 (keempat)
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
