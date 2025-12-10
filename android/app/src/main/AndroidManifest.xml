@@ -1,10 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
-<<<<<<< HEAD
-        android:label="smartclassroom"
-=======
-        android:label="classroom"
->>>>>>> 5e6f7e3 (keempat)
+        android:label="smart_classroom"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

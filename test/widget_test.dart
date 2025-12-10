@@ -8,12 +8,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:classroom/main.dart';
+import 'package:smart_classroom/pages/dashboard.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
+  testWidgets('App loads smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+    await tester.pumpWidget(const MaterialApp(home: Dashboard()));
 
     // Verify that our counter starts at 0.
     expect(find.text('0'), findsOneWidget);

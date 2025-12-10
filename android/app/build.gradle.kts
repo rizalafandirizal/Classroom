@@ -6,11 +6,7 @@ plugins {
 }
 
 android {
-<<<<<<< HEAD
-    namespace = "com.example.smartclassroom"
-=======
-    namespace = "com.example.classroom"
->>>>>>> 5e6f7e3 (keempat)
+    namespace = "com.example.smart_classroom"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -25,11 +21,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-<<<<<<< HEAD
-        applicationId = "com.example.smartclassroom"
-=======
-        applicationId = "com.example.classroom"
->>>>>>> 5e6f7e3 (keempat)
+        applicationId = "com.example.smart_classroom"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = flutter.minSdkVersion
